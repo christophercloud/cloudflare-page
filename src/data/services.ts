@@ -121,6 +121,43 @@ export const services: Service[] = [
     technologies: ["AWS Security Hub", "GCP Security Command Center", "OPA / Gatekeeper", "Vault", "Vanta", "Drata"],
   },
   {
+    slug: "generative-ai-enablement",
+    title: "Generative AI Enablement",
+    tagline: "Ship AI features on infrastructure that doesn't fall over.",
+    summary:
+      "Move generative AI from prototype to production. We help teams pick the right model strategy, build the RAG or agent architecture around it, and land it on cloud infrastructure with the observability, cost controls, and safety guardrails that real usage demands.",
+    icon: "ai",
+    outcomes: [
+      "A production AI stack your team can extend — not a demo held together by API keys and hope",
+      "Model routing and caching that keeps latency and cost predictable under real traffic",
+      "Guardrails for safety, PII handling, and prompt injection built in from day one",
+    ],
+    deliverables: [
+      "AI architecture review: model selection, hosting strategy, build-vs-buy tradeoffs",
+      "Reference RAG or agent implementation with retrieval, evaluation, and observability wired in",
+      "Cloud infrastructure (Bedrock, Vertex AI, Azure AI Foundry, or self-hosted) provisioned in Terraform",
+      "Evaluation harness and cost/latency dashboards so you can trust the numbers you report to leadership",
+    ],
+    engagementModel:
+      "Fixed-scope architecture review (2–4 weeks), then implementation on time-and-materials. Ongoing model-ops retainer available.",
+    ideal: [
+      "Teams past the prototype stage but hitting reliability, latency, or cost walls",
+      "Companies with sensitive data (healthcare, finance, legal) needing private model deployments",
+      "Engineering leaders whose AI roadmap outran their infrastructure",
+    ],
+    technologies: [
+      "AWS Bedrock",
+      "GCP Vertex AI",
+      "Azure AI Foundry",
+      "OpenAI",
+      "Anthropic",
+      "LangGraph",
+      "pgvector",
+      "OpenSearch",
+      "OpenTelemetry",
+    ],
+  },
+  {
     slug: "finops",
     title: "FinOps & Cost Optimization",
     tagline: "Cut cloud spend without cutting corners.",

@@ -34,6 +34,19 @@ const { name, class: className = "w-6 h-6" } = Astro.props;
     <path d="M8 11V7a4 4 0 018 0v4" />
   </svg>
 )}
+{name === "ai" && (
+  <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 2v3" />
+    <path d="M12 19v3" />
+    <path d="M5 12H2" />
+    <path d="M22 12h-3" />
+    <path d="M5 5l2 2" />
+    <path d="M17 17l2 2" />
+    <path d="M5 19l2-2" />
+    <path d="M17 7l2-2" />
+    <circle cx="12" cy="12" r="4" />
+  </svg>
+)}
 {name === "finops" && (
   <svg class={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <path d="M3 17l6-6 4 4 8-8" />
