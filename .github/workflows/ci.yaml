@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   lint-and-build:
     runs-on: ubuntu-latest
@@ -40,3 +44,70 @@ jobs:
           name: build-output
           path: dist/
           retention-days: 7
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Remove local .npmrc
+        run: rm -f ~/.npmrc .npmrc
+
+      - name: Install dependencies
+        run: npm install --registry https://registry.npmjs.org/ --package-lock-only=false
+
+      - name: Run npm audit (fail on high or critical)
+        run: npm audit --audit-level=high --registry https://registry.npmjs.org/
+
+      - name: Full npm audit report (advisory)
+        if: always()
+        run: npm audit --json --registry https://registry.npmjs.org/ > npm-audit.json || true
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-report
+          path: npm-audit.json
+          retention-days: 30
+
+  trivy-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trivy filesystem scan (blocking, high/critical)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: HIGH,CRITICAL
+          exit-code: "1"
+          ignore-unfixed: true
+          skip-dirs: dist,node_modules/.cache
+
+      - name: Trivy SARIF report (advisory, all severities)
+        if: always()
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          format: sarif
+          output: trivy-results.sarif
+          skip-dirs: dist,node_modules/.cache
+
+      - name: Upload Trivy SARIF to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy-fs
