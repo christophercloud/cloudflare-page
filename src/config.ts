@@ -13,6 +13,6 @@ export const siteConfig = {
 };
 
 export const socialUrls = {
-  github: "https://github.com/cjt0060",
+  github: "https://github.com/christophercloud",
   linkedin: "https://linkedin.com/in/christopher-j-trejo",
 };

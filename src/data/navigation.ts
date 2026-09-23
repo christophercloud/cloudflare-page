@@ -19,7 +19,7 @@ export interface SocialLink {
 
 export const socialLinks: SocialLink[] = [
   { platform: "linkedin", href: "https://linkedin.com/in/christopher-j-trejo", label: "LinkedIn" },
-  { platform: "github", href: "https://github.com/cjt0060", label: "GitHub" },
+  { platform: "github", href: "https://github.com/christophercloud", label: "GitHub" },
 ];
 
 export interface FooterLink {
