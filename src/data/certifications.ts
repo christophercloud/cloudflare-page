@@ -12,18 +12,18 @@ export const certifications: Certification[] = [
     title: "Microsoft Certified: Azure Solutions Architect Expert",
     issuer: "Microsoft",
     date: "2026",
-    credentialUrl: "https://aws.amazon.com/verification",
+    credentialUrl: "https://learn.microsoft.com/verify",
     description:
-      "Advanced architectural design patterns, multi-account strategies, and complex hybrid architectures on AWS.",
+      "Advanced architectural design across identity, governance, compute, and networking on Azure.",
     category: "Azure",
   },
   {
-    title: "Google Cloud Certified Professional Cloud Architect",
-    issuer: "Google",
+    title: "Google Cloud Professional Cloud Architect",
+    issuer: "Google Cloud",
     date: "2026",
-    credentialUrl: "https://aws.amazon.com/verification",
+    credentialUrl: "https://google.accredible.com/verify",
     description:
-      "CI/CD pipelines, infrastructure as code, monitoring, logging, and operational excellence on AWS.",
+      "Designing and managing solutions across compute, networking, security, and data on GCP.",
     category: "GCP",
   },
   {
@@ -32,16 +32,16 @@ export const certifications: Certification[] = [
     date: "2026",
     credentialUrl: "https://www.credly.com/verify",
     description:
-      "Kubernetes cluster administration, networking, storage, security, and troubleshooting.",
+      "Advanced Terraform module design, state management, and operations at scale.",
     category: "Terraform",
   },
   {
     title: "Microsoft Certified: Azure Network Engineer Associate",
     issuer: "Microsoft",
     date: "2026",
-    credentialUrl: "https://www.credly.com/verify",
+    credentialUrl: "https://learn.microsoft.com/verify",
     description:
-      "Kubernetes security best practices, supply chain security, runtime security, and network policies.",
+      "Design and implementation of Azure networking, hybrid connectivity, and security.",
     category: "Azure",
   },
   {
@@ -57,9 +57,9 @@ export const certifications: Certification[] = [
     title: "Microsoft Certified: Azure Administrator Associate",
     issuer: "Microsoft",
     date: "2026",
-    credentialUrl: "https://www.credential.net/verify",
+    credentialUrl: "https://learn.microsoft.com/verify",
     description:
-      "Designing and planning cloud solution architecture, managing infrastructure, and ensuring security on GCP.",
+      "Managing Azure identities, governance, storage, compute, and virtual networks.",
     category: "Azure",
   },
   {
@@ -68,7 +68,7 @@ export const certifications: Certification[] = [
     date: "2025",
     credentialUrl: "https://learn.microsoft.com/verify",
     description:
-      "Design identity, governance, monitoring, compute, networking, storage, and data integration solutions on Azure.",
+      "Designing, building, and maintaining cloud applications and services on Azure.",
     category: "Azure",
   },
   {
@@ -77,7 +77,7 @@ export const certifications: Certification[] = [
     date: "2025",
     credentialUrl: "https://www.credly.com/verify",
     description:
-      "Secrets management, encryption as a service, dynamic credentials, and identity-based access.",
+      "Service networking, service mesh, and secure service-to-service communication with Consul.",
     category: "HashiCorp",
   },
 ];

@@ -1,0 +1,149 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import TechBadge from "@components/TechBadge.astro";
+import ServiceIcon from "@components/ServiceIcon.astro";
+import CTA from "@components/CTA.astro";
+import CaseStudyCard from "@components/CaseStudyCard.astro";
+import { services } from "@/data/services";
+import { caseStudies } from "@/data/caseStudies";
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const relatedCases = caseStudies.filter((c) => c.service === service.title).slice(0, 3);
+---
+
+<BaseLayout title={service.title} description={service.summary}>
+  <section class="section-padding border-b border-surface-800/50">
+    <div class="section-container">
+      <div class="max-w-4xl">
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Services", href: "/services" },
+            { label: service.title },
+          ]}
+        />
+
+        <div class="mt-8 flex items-center gap-4">
+          <div class="w-14 h-14 rounded-xl bg-primary-500/10 text-primary-400 flex items-center justify-center ring-1 ring-primary-500/20">
+            <ServiceIcon name={service.icon} class="w-6 h-6" />
+          </div>
+          <span class="text-sm font-medium text-primary-400">Service</span>
+        </div>
+
+        <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-heading">
+          {service.title}
+        </h1>
+        <p class="mt-4 text-xl text-primary-300 max-w-2xl">{service.tagline}</p>
+        <p class="mt-6 text-lg text-surface-300 leading-relaxed max-w-3xl">
+          {service.summary}
+        </p>
+
+        <div class="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <a href="/contact" class="btn-primary">Start with a Discovery</a>
+          <a href="/case-studies" class="btn-secondary">See Related Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="section-container">
+      <div class="max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <!-- Outcomes -->
+        <div>
+          <h2 class="text-2xl font-bold text-heading tracking-tight">Outcomes you can expect</h2>
+          <ul class="mt-6 space-y-4">
+            {service.outcomes.map((outcome) => (
+              <li class="flex items-start gap-3 text-surface-300">
+                <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="leading-relaxed">{outcome}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Deliverables -->
+        <div>
+          <h2 class="text-2xl font-bold text-heading tracking-tight">What you get</h2>
+          <ul class="mt-6 space-y-4">
+            {service.deliverables.map((deliverable) => (
+              <li class="flex items-start gap-3 text-surface-300">
+                <span class="mt-2 w-1.5 h-1.5 rounded-full bg-primary-400 flex-shrink-0"></span>
+                <span class="leading-relaxed">{deliverable}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="max-w-5xl mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div>
+          <h2 class="text-2xl font-bold text-heading tracking-tight">Engagement model</h2>
+          <p class="mt-6 text-surface-300 leading-relaxed">{service.engagementModel}</p>
+        </div>
+        <div>
+          <h2 class="text-2xl font-bold text-heading tracking-tight">Ideal fit</h2>
+          <ul class="mt-6 space-y-3 text-surface-300">
+            {service.ideal.map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-2 w-1.5 h-1.5 rounded-full bg-primary-400 flex-shrink-0"></span>
+                <span class="leading-relaxed">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="max-w-5xl mt-16">
+        <h2 class="text-2xl font-bold text-heading tracking-tight">Technologies we work with</h2>
+        <div class="mt-6 flex flex-wrap gap-2">
+          {service.technologies.map((tech) => (
+            <TechBadge name={tech} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {relatedCases.length > 0 && (
+    <section class="section-padding border-t border-surface-800/50 bg-surface-900/20">
+      <div class="section-container">
+        <div class="mb-12">
+          <span class="text-sm font-medium text-primary-400">Related work</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+            How this has played out.
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {relatedCases.map((cs) => (
+            <CaseStudyCard
+              slug={cs.slug}
+              title={cs.title}
+              industry={cs.industry}
+              service={cs.service}
+              summary={cs.summary}
+              metrics={cs.metrics}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CTA
+    title={`Ready to talk about ${service.title.toLowerCase()}?`}
+    description="Send us a paragraph about your situation. If it's a fit, we'll propose a discovery scope within one business day."
+    primaryCTA={{ label: "Get in Touch", href: "/contact" }}
+    secondaryCTA={{ label: "See All Services", href: "/services" }}
+  />
+</BaseLayout>

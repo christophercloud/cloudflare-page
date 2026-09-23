@@ -1,0 +1,109 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import CaseStudyCard from "@components/CaseStudyCard.astro";
+import CTA from "@components/CTA.astro";
+import { caseStudies } from "@/data/caseStudies";
+
+const industries = [...new Set(caseStudies.map((c) => c.industry))];
+const servicesUsed = [...new Set(caseStudies.map((c) => c.service))];
+---
+
+<BaseLayout
+  title="Case Studies"
+  description="Selected consulting engagements — cloud migrations, platform builds, reliability programs, security readiness, and FinOps."
+>
+  <section class="section-padding border-b border-surface-800/50">
+    <div class="section-container">
+      <div class="max-w-3xl">
+        <span class="text-sm font-medium text-primary-400">Case studies</span>
+        <h1 class="mt-2 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-heading">
+          Selected work, measured in numbers.
+        </h1>
+        <p class="mt-6 text-lg text-surface-300 leading-relaxed">
+          Every engagement below is anonymized where required, but the metrics are real. Names and specific details are available under NDA on request.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="section-container">
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-3 mb-12">
+        <button
+          type="button"
+          data-filter="all"
+          aria-pressed="true"
+          class="case-filter px-3 py-1.5 text-sm rounded-lg border transition-colors bg-primary-500/10 text-primary-400 border-primary-500/20"
+        >
+          All ({caseStudies.length})
+        </button>
+        {servicesUsed.map((service) => (
+          <button
+            type="button"
+            data-filter={service}
+            aria-pressed="false"
+            class="case-filter px-3 py-1.5 text-sm rounded-lg border transition-colors text-surface-400 border-surface-700 hover:border-surface-600"
+          >
+            {service} ({caseStudies.filter((c) => c.service === service).length})
+          </button>
+        ))}
+      </div>
+
+      <!-- Grid -->
+      <div id="case-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {caseStudies.map((cs) => (
+          <div class="case-item" data-service={cs.service}>
+            <CaseStudyCard
+              slug={cs.slug}
+              title={cs.title}
+              industry={cs.industry}
+              service={cs.service}
+              summary={cs.summary}
+              metrics={cs.metrics}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const filters = document.querySelectorAll<HTMLButtonElement>(".case-filter");
+    const items = document.querySelectorAll<HTMLElement>(".case-item");
+
+    const activeClasses = ["bg-primary-500/10", "text-primary-400", "border-primary-500/20"];
+    const inactiveClasses = ["text-surface-400", "border-surface-700", "hover:border-surface-600"];
+
+    filters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const selected = btn.dataset.filter;
+
+        filters.forEach((f) => {
+          const active = f === btn;
+          f.setAttribute("aria-pressed", active ? "true" : "false");
+          if (active) {
+            f.classList.add(...activeClasses);
+            f.classList.remove(...inactiveClasses);
+          } else {
+            f.classList.remove(...activeClasses);
+            f.classList.add(...inactiveClasses);
+          }
+        });
+
+        items.forEach((item) => {
+          const svc = item.dataset.service;
+          const show = selected === "all" || svc === selected;
+          item.style.display = show ? "" : "none";
+        });
+      });
+    });
+  </script>
+
+  <CTA
+    title="Want to see something similar for your team?"
+    description="Send us the situation. If we've solved something close before, we'll share the playbook. If we haven't, we'll say so."
+    primaryCTA={{ label: "Start a Project", href: "/contact" }}
+    secondaryCTA={{ label: "Browse Services", href: "/services" }}
+  />
+</BaseLayout>

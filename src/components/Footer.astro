@@ -1,32 +1,40 @@
 ---
 import { socialLinks, footerPages } from "@/data/navigation";
+import { siteConfig } from "@/config";
 
 const currentYear = new Date().getFullYear();
 
-const footerLinks = {
-  pages: footerPages,
-  social: socialLinks,
-};
+const services = [
+  { label: "Cloud Migration", href: "/services/cloud-migration" },
+  { label: "Platform Engineering", href: "/services/platform-engineering" },
+  { label: "Site Reliability", href: "/services/site-reliability" },
+  { label: "Security & Compliance", href: "/services/security-compliance" },
+  { label: "FinOps", href: "/services/finops" },
+];
 ---
 
 <footer class="border-t border-surface-800/50 bg-surface-950">
   <div class="section-container py-12 sm:py-16">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
       <!-- Brand -->
-      <div class="sm:col-span-2 lg:col-span-1">
+      <div class="col-span-2 lg:col-span-1">
         <a href="/" class="flex items-center gap-2 mb-4">
-          <span class="font-semibold text-heading">Christopher Trejo</span>
+          <svg class="w-6 h-6 text-primary-400" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M22 12a6 6 0 00-11.65-2A5 5 0 007 22h15a5 5 0 000-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 17l3 3 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="font-semibold text-heading">{siteConfig.shortTitle}</span>
         </a>
         <p class="text-sm text-surface-400 leading-relaxed max-w-xs">
-          Building resilient, scalable cloud infrastructure. Specializing in AWS, Kubernetes, and platform engineering.
+          Cloud architecture, platform engineering, and reliability consulting for teams that need to move fast without breaking production.
         </p>
       </div>
 
-      <!-- Pages -->
+      <!-- Services -->
       <div>
-        <h3 class="text-sm font-semibold text-heading mb-4">Pages</h3>
+        <h3 class="text-sm font-semibold text-heading mb-4">Services</h3>
         <ul class="space-y-2">
-          {footerLinks.pages.map((link) => (
+          {services.map((link) => (
             <li>
               <a href={link.href} data-astro-prefetch="tap" class="text-sm link-hover">{link.label}</a>
             </li>
@@ -34,11 +42,26 @@ const footerLinks = {
         </ul>
       </div>
 
-      <!-- Social -->
+      <!-- Company -->
+      <div>
+        <h3 class="text-sm font-semibold text-heading mb-4">Company</h3>
+        <ul class="space-y-2">
+          {footerPages.map((link) => (
+            <li>
+              <a href={link.href} data-astro-prefetch="tap" class="text-sm link-hover">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Connect -->
       <div>
         <h3 class="text-sm font-semibold text-heading mb-4">Connect</h3>
         <ul class="space-y-2">
-          {footerLinks.social.map((link) => (
+          <li>
+            <a href={`mailto:${siteConfig.contactEmail}`} class="text-sm link-hover">{siteConfig.contactEmail}</a>
+          </li>
+          {socialLinks.map((link) => (
             <li>
               <a href={link.href} target="_blank" rel="noopener noreferrer" class="text-sm link-hover">
                 {link.label}
@@ -47,6 +70,15 @@ const footerLinks = {
           ))}
         </ul>
       </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-surface-800/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-surface-500">
+        © {currentYear} {siteConfig.title}. All rights reserved.
+      </p>
+      <p class="text-xs text-surface-500">
+        Independent consultancy. Led by {siteConfig.founder}.
+      </p>
     </div>
   </div>
 </footer>

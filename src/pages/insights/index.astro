@@ -1,0 +1,108 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import BlogCard from "@components/BlogCard.astro";
+import { getCollection } from "astro:content";
+import { calculateReadingTime } from "@/utils/readingTime";
+
+const allPosts = (await getCollection("insights"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime());
+
+const categories = [...new Set(allPosts.map((p) => p.data.category))];
+---
+
+<BaseLayout
+  title="Insights"
+  description="Field notes from cloud consulting engagements — architecture, migrations, reliability, and platform engineering."
+>
+  <section class="section-padding border-b border-surface-800/50">
+    <div class="section-container">
+      <div class="max-w-3xl">
+        <span class="text-sm font-medium text-primary-400">Insights</span>
+        <h1 class="mt-2 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-heading">
+          Field notes.
+        </h1>
+        <p class="mt-6 text-lg text-surface-300 leading-relaxed">
+          Writing about the parts of cloud engineering that don't make it into whitepapers: the tradeoffs, the misfires, and the decisions that only make sense in context.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="section-container">
+      <!-- Category filters -->
+      {categories.length > 0 && (
+        <div id="insights-filters" class="flex flex-wrap gap-2 mb-10">
+          <button
+            type="button"
+            data-filter="all"
+            aria-pressed="true"
+            class="insight-filter px-3 py-1.5 text-sm rounded-lg border transition-colors bg-primary-500/10 text-primary-400 border-primary-500/20"
+          >
+            All ({allPosts.length})
+          </button>
+          {categories.map((cat) => (
+            <button
+              type="button"
+              data-filter={cat}
+              aria-pressed="false"
+              class="insight-filter px-3 py-1.5 text-sm rounded-lg border transition-colors text-surface-400 border-surface-700 hover:border-surface-600"
+            >
+              {cat} ({allPosts.filter((p) => p.data.category === cat).length})
+            </button>
+          ))}
+        </div>
+      )}
+
+      <!-- Posts Grid -->
+      <div id="insights-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {allPosts.map((post) => (
+          <div class="insight-item" data-category={post.data.category}>
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.publishedDate}
+              category={post.data.category}
+              readingTime={`${calculateReadingTime(post.body!)} min read`}
+              href={`/insights/${post.slug}`}
+              tags={post.data.tags}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const filters = document.querySelectorAll<HTMLButtonElement>(".insight-filter");
+    const items = document.querySelectorAll<HTMLElement>(".insight-item");
+
+    const activeClasses = ["bg-primary-500/10", "text-primary-400", "border-primary-500/20"];
+    const inactiveClasses = ["text-surface-400", "border-surface-700", "hover:border-surface-600"];
+
+    filters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const selected = btn.dataset.filter;
+
+        filters.forEach((f) => {
+          const active = f === btn;
+          f.setAttribute("aria-pressed", active ? "true" : "false");
+          if (active) {
+            f.classList.add(...activeClasses);
+            f.classList.remove(...inactiveClasses);
+          } else {
+            f.classList.remove(...activeClasses);
+            f.classList.add(...inactiveClasses);
+          }
+        });
+
+        items.forEach((item) => {
+          const category = item.dataset.category;
+          const show = selected === "all" || category === selected;
+          item.style.display = show ? "" : "none";
+        });
+      });
+    });
+  </script>
+</BaseLayout>

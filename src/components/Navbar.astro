@@ -1,38 +1,38 @@
 ---
-import LinkedInIcon from "@/components/Icons/LinkedIn.astro";
 import MenuIcon from "@/components/Icons/Menu.astro";
 import ThemeToggle from "@/components/ThemeToggle.astro";
-import { socialUrls } from "@/config";
+import { navLinks } from "@/data/navigation";
+import { siteConfig } from "@/config";
 
 const currentPath = Astro.url.pathname;
 
-const navLinks = [
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
-  { label: "Projects", href: "/projects" },
-  { label: "Certifications", href: "/certifications" },
-];
+const isActive = (href: string) =>
+  currentPath === href || (href !== "/" && currentPath.startsWith(href));
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 border-b border-surface-800/50 bg-surface-950/80 backdrop-blur-xl">
   <div class="section-container">
     <div class="flex items-center justify-between h-16">
-      <!-- Logo -->
+      <!-- Brand -->
       <a href="/" class="flex items-center gap-2 group">
-<span class="font-semibold text-heading group-hover:text-primary-400 transition-colors hidden sm:block">
-          christophercloud.dev
+        <svg class="w-7 h-7 text-primary-400" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M22 12a6 6 0 00-11.65-2A5 5 0 007 22h15a5 5 0 000-10z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M12 17l3 3 5-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="font-semibold text-heading tracking-tight group-hover:text-primary-400 transition-colors">
+          {siteConfig.shortTitle}
         </span>
       </a>
 
       <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center gap-2">
+      <div class="hidden md:flex items-center gap-1">
         {navLinks.map((link) => (
           <a
             href={link.href}
             data-astro-prefetch="tap"
             class:list={[
               "px-3 py-2 text-sm rounded-md transition-colors duration-200",
-              currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href))
+              isActive(link.href)
                 ? "text-primary-400 bg-primary-500/10"
                 : "text-surface-400 hover:text-heading hover:bg-surface-800/50",
             ]}
@@ -42,14 +42,11 @@ const navLinks = [
         ))}
 
         <a
-          href={socialUrls.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-1.5 px-3 py-2 text-sm rounded-md text-surface-400 hover:text-heading hover:bg-surface-800/50 transition-colors duration-200"
-          aria-label="LinkedIn"
+          href="/contact"
+          data-astro-prefetch="tap"
+          class="ml-2 inline-flex items-center px-4 py-2 text-sm font-medium rounded-lg bg-primary-600 text-white hover:bg-primary-500 transition-colors"
         >
-          <LinkedInIcon class="w-4 h-4" />
-          <span>LinkedIn</span>
+          Start a Project
         </a>
 
         <ThemeToggle label="Toggle theme" />
@@ -79,7 +76,7 @@ const navLinks = [
           data-astro-prefetch="tap"
           class:list={[
             "block px-3 py-2 text-sm rounded-md transition-colors duration-200",
-            currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href))
+            isActive(link.href)
               ? "text-primary-400 bg-primary-500/10"
               : "text-surface-400 hover:text-heading hover:bg-surface-800/50",
           ]}
@@ -87,15 +84,11 @@ const navLinks = [
           {link.label}
         </a>
       ))}
-
       <a
-        href={socialUrls.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex items-center gap-2 px-3 py-2 text-sm rounded-md text-surface-400 hover:text-heading hover:bg-surface-800/50 transition-colors duration-200"
+        href="/contact"
+        class="block mt-3 text-center px-4 py-2 text-sm font-medium rounded-lg bg-primary-600 text-white hover:bg-primary-500 transition-colors"
       >
-        <LinkedInIcon class="w-4 h-4" />
-        LinkedIn
+        Start a Project
       </a>
     </div>
   </div>

@@ -1,0 +1,37 @@
+---
+import ServiceIcon from "@components/ServiceIcon.astro";
+import ChevronRightIcon from "@components/Icons/ChevronRight.astro";
+
+interface Props {
+  slug: string;
+  title: string;
+  tagline: string;
+  summary: string;
+  icon: string;
+}
+
+const { slug, title, tagline, summary, icon } = Astro.props;
+---
+
+<a href={`/services/${slug}`} data-astro-prefetch="tap" class="group block relative rounded-xl border border-surface-800 bg-surface-900/40 p-6 transition-all duration-300 hover:border-primary-500/40 hover:bg-surface-900/70">
+  <div class="flex items-start gap-4">
+    <div class="flex-shrink-0 w-11 h-11 rounded-lg bg-primary-500/10 text-primary-400 flex items-center justify-center ring-1 ring-primary-500/20">
+      <ServiceIcon name={icon} class="w-5 h-5" />
+    </div>
+    <div class="flex-1 min-w-0">
+      <h3 class="text-lg font-semibold text-heading group-hover:text-primary-300 transition-colors">
+        {title}
+      </h3>
+      <p class="mt-1 text-sm text-primary-400/90">{tagline}</p>
+    </div>
+  </div>
+
+  <p class="mt-5 text-sm text-surface-400 leading-relaxed">
+    {summary}
+  </p>
+
+  <div class="mt-5 inline-flex items-center gap-1 text-sm text-primary-400 group-hover:gap-2 transition-all">
+    Learn more
+    <ChevronRightIcon class="w-4 h-4" />
+  </div>
+</a>

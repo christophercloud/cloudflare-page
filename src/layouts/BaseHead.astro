@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import { siteConfig } from "@/config";
 
 interface Props {
   title: string;
@@ -12,14 +13,14 @@ interface Props {
 
 const {
   title,
-  description = "Cloud Engineer portfolio — infrastructure, DevOps, and platform engineering.",
+  description = siteConfig.description,
   image = "/og-default.png",
   canonicalUrl = Astro.url.href,
   type = "website",
   publishedDate,
 } = Astro.props;
 
-const siteTitle = `${title} | Cloud Engineer`;
+const siteTitle = title === "Home" ? siteConfig.title : `${title} | ${siteConfig.shortTitle}`;
 ---
 
 <!doctype html>
@@ -45,6 +46,7 @@ const siteTitle = `${title} | Cloud Engineer`;
     <meta property="og:title" content={siteTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:site_name" content={siteConfig.title} />
 
     {publishedDate && <meta property="article:published_time" content={publishedDate} />}
 
@@ -60,14 +62,17 @@ const siteTitle = `${title} | Cloud Engineer`;
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Your Name",
+      "@type": "ProfessionalService",
+      "name": siteConfig.title,
       "url": canonicalUrl,
-      "jobTitle": "Cloud Engineer",
       "description": description,
+      "founder": {
+        "@type": "Person",
+        "name": siteConfig.founder,
+      },
       "sameAs": [
-        "https://github.com/yourusername",
-        "https://linkedin.com/in/yourusername"
+        "https://github.com/cjt0060",
+        "https://linkedin.com/in/christopher-j-trejo"
       ]
     })} />
   </head>

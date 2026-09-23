@@ -4,12 +4,10 @@ export interface NavLink {
 }
 
 export const navLinks: NavLink[] = [
-  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Insights", href: "/insights" },
   { label: "About", href: "/about" },
-  { label: "Resume", href: "/resume" },
-  { label: "Projects", href: "/projects" },
-  { label: "Blog", href: "/blog" },
-  { label: "Certifications", href: "/certifications" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -20,8 +18,8 @@ export interface SocialLink {
 }
 
 export const socialLinks: SocialLink[] = [
-  { platform: "github", href: "https://github.com/christophercloud", label: "GitHub" },
   { platform: "linkedin", href: "https://linkedin.com/in/christopher-j-trejo", label: "LinkedIn" },
+  { platform: "github", href: "https://github.com/cjt0060", label: "GitHub" },
 ];
 
 export interface FooterLink {
@@ -29,4 +27,4 @@ export interface FooterLink {
   href: string;
 }
 
-export const footerPages: FooterLink[] = navLinks.slice(0, 6);
+export const footerPages: FooterLink[] = navLinks;

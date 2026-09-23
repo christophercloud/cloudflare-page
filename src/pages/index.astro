@@ -1,170 +1,263 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import ProfileHero from "@components/ProfileHero.astro";
-import ProjectCard from "@components/ProjectCard.astro";
+import ServiceCard from "@components/ServiceCard.astro";
+import CaseStudyCard from "@components/CaseStudyCard.astro";
 import BlogCard from "@components/BlogCard.astro";
-import CertificationCard from "@components/CertificationCard.astro";
-import TechBadge from "@components/TechBadge.astro";
 import CTA from "@components/CTA.astro";
 import ChevronRightIcon from "@components/Icons/ChevronRight.astro";
-import { projects } from "@/data/projects";
+import { services } from "@/data/services";
+import { caseStudies } from "@/data/caseStudies";
 import { certifications } from "@/data/certifications";
+import { siteConfig } from "@/config";
 import { getCollection } from "astro:content";
 import { calculateReadingTime } from "@/utils/readingTime";
 
-const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
-const featuredCerts = certifications.slice(0, 4);
+const featuredCases = caseStudies.filter((c) => c.featured).slice(0, 3);
 
-const blogPosts = (await getCollection("blog"))
+const insights = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime())
   .slice(0, 3);
 
-const technologies = [
-  { name: "AWS", icon: "☁️" },
-  { name: "Kubernetes", icon: "⎈" },
-  { name: "Terraform", icon: "🏗️" },
-  { name: "Docker", icon: "🐳" },
-  { name: "Python", icon: "🐍" },
-  { name: "Go", icon: "🔷" },
-  { name: "TypeScript", icon: "📘" },
-  { name: "Linux", icon: "🐧" },
-  { name: "GitOps", icon: "🔄" },
-  { name: "Prometheus", icon: "📊" },
-  { name: "GCP", icon: "🌐" },
-  { name: "Azure", icon: "🔵" },
+const process = [
+  {
+    step: "01",
+    title: "Discover",
+    description:
+      "We map your systems, constraints, and goals in a focused two-to-four-week discovery. You leave with a written architecture assessment and a scoped plan — whether or not we continue together.",
+  },
+  {
+    step: "02",
+    title: "Design",
+    description:
+      "We produce the target architecture, IaC scaffolding, and a phased execution plan with clear risk tradeoffs. Every recommendation ships with the reasoning behind it.",
+  },
+  {
+    step: "03",
+    title: "Deliver",
+    description:
+      "We build alongside your team, not around them. We hand off code, runbooks, and knowledge — so your engineers own the outcome after we leave.",
+  },
 ];
+
+const partnerBadges = ["AWS", "Google Cloud", "Microsoft Azure", "Kubernetes", "HashiCorp"];
 ---
 
-<BaseLayout title="Home" description="Cloud Engineer specializing in AWS, Kubernetes, and platform engineering. Building resilient, scalable infrastructure.">
+<BaseLayout
+  title="Home"
+  description={siteConfig.description}
+>
   <!-- Hero -->
-  <ProfileHero
-    name="Christopher Trejo"
-    titles={["Author", "Cloud DevSecOps Engineer"]}
-    location="New York, USA"
-    imageSrc="/images/profile.jpg"
-    imageAlt="Christopher Trejo"
-  />
+  <section class="relative overflow-hidden border-b border-surface-800/50">
+    <!-- Background grid + glow -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(20,184,166,0.12),_transparent_60%)]"></div>
+      <div
+        class="absolute inset-0 opacity-[0.08]"
+        style="background-image: linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px); background-size: 64px 64px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);"
+      ></div>
+    </div>
 
-  <!-- Professional Summary -->
-  <section class="section-padding border-t border-surface-800/50">
+    <div class="section-container py-20 sm:py-28 lg:py-36">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-500/30 bg-primary-500/5 text-primary-300 text-xs font-medium">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary-400 animate-pulse"></span>
+          Accepting new engagements for Q1
+        </div>
+
+        <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-heading leading-[1.05]">
+          Cloud infrastructure your team can <span class="text-primary-400">actually own</span>.
+        </h1>
+
+        <p class="mt-6 text-lg sm:text-xl text-surface-300 max-w-2xl leading-relaxed">
+          Surefire Cloud is a boutique consultancy for teams that need to ship fast on AWS, GCP, or Azure — without inheriting infrastructure they can't operate. Migrations, platforms, and reliability programs, delivered by senior engineers who stay hands-on.
+        </p>
+
+        <div class="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <a href="/contact" class="btn-primary">
+            Start a Project
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href="/case-studies" class="btn-secondary">See Our Work</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Partner strip -->
+    <div class="border-t border-surface-800/50 bg-surface-950/60 backdrop-blur">
+      <div class="section-container py-6">
+        <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+          <span class="text-xs uppercase tracking-widest text-surface-500">Certified across</span>
+          {partnerBadges.map((name) => (
+            <span class="text-sm text-surface-400 font-medium">{name}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section-padding">
     <div class="section-container">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-2xl sm:text-3xl font-bold text-heading mb-6">
-          Engineering Reliability at Scale
+      <div class="max-w-2xl mb-12">
+        <span class="text-sm font-medium text-primary-400">What we do</span>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+          Five practice areas. One senior engineer per engagement.
         </h2>
-        <p class="text-surface-400 leading-relaxed text-lg">
-          With over 4 years of experience in cloud engineering, I specialize in building 
-          and operating distributed systems that handle millions of requests. From designing 
-          multi-cloud architectures to implementing GitOps pipelines, I focus on automation, 
-          observability, and developer experience.
+        <p class="mt-4 text-surface-400 leading-relaxed">
+          Every engagement is led hands-on — no PMs bouncing scope, no rotating juniors. Pick the practice area that fits, or start with a discovery to figure out which one you actually need.
         </p>
       </div>
-    </div>
-  </section>
 
-  <!-- Technologies -->
-  <section class="section-padding border-t border-surface-800/50">
-    <div class="section-container">
-      <div class="text-center mb-12">
-        <h2 class="text-2xl sm:text-3xl font-bold text-heading">Technologies & Tools</h2>
-        <p class="mt-3 text-surface-400">Core technologies I work with daily</p>
-      </div>
-      <div class="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-        {technologies.map((tech) => (
-          <TechBadge name={tech.name} icon={tech.icon} />
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Featured Projects -->
-  <section class="section-padding border-t border-surface-800/50">
-    <div class="section-container">
-      <div class="flex items-center justify-between mb-12">
-        <div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-heading">Featured Projects</h2>
-          <p class="mt-2 text-surface-400">Recent infrastructure and platform engineering work</p>
-        </div>
-        <a href="/projects" data-astro-prefetch="tap" class="hidden sm:flex items-center gap-1 text-sm text-primary-400 hover:text-primary-300 transition-colors">
-          View all
-          <ChevronRightIcon class="w-4 h-4" />
-        </a>
-      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {featuredProjects.map((project) => (
-          <ProjectCard
-            title={project.title}
-            description={project.description}
-            technologies={project.technologies.slice(0, 4)}
-            href={`/projects/${project.slug}`}
-            github={project.github}
+        {services.map((service) => (
+          <ServiceCard
+            slug={service.slug}
+            title={service.title}
+            tagline={service.tagline}
+            summary={service.summary}
+            icon={service.icon}
           />
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Latest Blog Posts -->
+  <!-- Process -->
+  <section class="section-padding border-t border-surface-800/50 bg-surface-900/20">
+    <div class="section-container">
+      <div class="max-w-2xl mb-12">
+        <span class="text-sm font-medium text-primary-400">How we work</span>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+          Discovery-first. No surprise invoices.
+        </h2>
+        <p class="mt-4 text-surface-400 leading-relaxed">
+          You get a fixed-scope discovery before we ever propose an implementation. If the numbers don't work for you, we part ways — and you still keep the assessment.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {process.map((step) => (
+          <div class="rounded-xl border border-surface-800 bg-surface-950/40 p-6 sm:p-8">
+            <div class="text-sm font-mono text-primary-400">{step.step}</div>
+            <h3 class="mt-3 text-xl font-semibold text-heading">{step.title}</h3>
+            <p class="mt-3 text-sm text-surface-400 leading-relaxed">{step.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Case Studies -->
   <section class="section-padding border-t border-surface-800/50">
     <div class="section-container">
-      <div class="flex items-center justify-between mb-12">
-        <div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-heading">Latest Articles</h2>
-          <p class="mt-2 text-surface-400">Thoughts on cloud engineering and DevOps</p>
+      <div class="flex items-end justify-between mb-12 gap-6 flex-wrap">
+        <div class="max-w-2xl">
+          <span class="text-sm font-medium text-primary-400">Selected work</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+            Outcomes, measured on the invoice.
+          </h2>
+          <p class="mt-4 text-surface-400 leading-relaxed">
+            Every engagement ships with a number attached. No vanity metrics — the ones that show up on your cloud bill, in your latency graphs, or in your audit report.
+          </p>
         </div>
-        <a href="/blog" data-astro-prefetch="tap" class="hidden sm:flex items-center gap-1 text-sm text-primary-400 hover:text-primary-300 transition-colors">
-          View all
+        <a href="/case-studies" class="hidden sm:inline-flex items-center gap-1 text-sm text-primary-400 hover:text-primary-300 transition-colors">
+          View all case studies
           <ChevronRightIcon class="w-4 h-4" />
         </a>
       </div>
+
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {blogPosts.map((post) => (
-          <BlogCard
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.publishedDate}
-            category={post.data.category}
-            readingTime={`${calculateReadingTime(post.body!)} min read`}
-            href={`/blog/${post.slug}`}
+        {featuredCases.map((cs) => (
+          <CaseStudyCard
+            slug={cs.slug}
+            title={cs.title}
+            industry={cs.industry}
+            service={cs.service}
+            summary={cs.summary}
+            metrics={cs.metrics}
           />
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Certifications Preview -->
-  <section class="section-padding border-t border-surface-800/50">
+  <!-- Credibility band -->
+  <section class="section-padding border-t border-surface-800/50 bg-surface-900/20">
     <div class="section-container">
-      <div class="flex items-center justify-between mb-12">
-        <div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-heading">Certifications</h2>
-          <p class="mt-2 text-surface-400">Professional cloud and infrastructure certifications</p>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+        <div class="lg:col-span-1">
+          <span class="text-sm font-medium text-primary-400">Why teams hire us</span>
+          <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+            Senior engineering, no bench-warming.
+          </h2>
+          <p class="mt-4 text-surface-400 leading-relaxed">
+            Surefire Cloud is led by {siteConfig.founder}, a cloud engineer with certifications across every major provider and years operating production systems at scale. You get that seniority on every call — not a sales team followed by a handoff.
+          </p>
+          <a href="/about" data-astro-prefetch="tap" class="mt-6 inline-flex items-center gap-1 text-sm text-primary-400 hover:text-primary-300 transition-colors">
+            Meet the founder
+            <ChevronRightIcon class="w-4 h-4" />
+          </a>
         </div>
-        <a href="/certifications" data-astro-prefetch="tap" class="hidden sm:flex items-center gap-1 text-sm text-primary-400 hover:text-primary-300 transition-colors">
-          View all
-          <ChevronRightIcon class="w-4 h-4" />
-        </a>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {featuredCerts.map((cert) => (
-          <CertificationCard
-            title={cert.title}
-            issuer={cert.issuer}
-            date={cert.date}
-            credentialUrl={cert.credentialUrl}
-            description={cert.description}
-          />
-        ))}
+
+        <div class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {certifications.slice(0, 8).map((cert) => (
+            <div class="rounded-lg border border-surface-800 bg-surface-950/60 p-4 flex flex-col">
+              <span class="text-xs uppercase tracking-wider text-primary-400">{cert.category}</span>
+              <p class="mt-2 text-sm text-heading font-medium leading-tight line-clamp-3">
+                {cert.title}
+              </p>
+              <span class="mt-auto pt-3 text-xs text-surface-500">{cert.issuer} · {cert.date}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- Insights -->
+  {insights.length > 0 && (
+    <section class="section-padding border-t border-surface-800/50">
+      <div class="section-container">
+        <div class="flex items-end justify-between mb-12 gap-6 flex-wrap">
+          <div class="max-w-2xl">
+            <span class="text-sm font-medium text-primary-400">Insights</span>
+            <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+              Notes from the field.
+            </h2>
+            <p class="mt-4 text-surface-400 leading-relaxed">
+              Longer-form writing on architecture decisions, migration lessons, and the messy realities behind clean whitepapers.
+            </p>
+          </div>
+          <a href="/insights" class="hidden sm:inline-flex items-center gap-1 text-sm text-primary-400 hover:text-primary-300 transition-colors">
+            All insights
+            <ChevronRightIcon class="w-4 h-4" />
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {insights.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.publishedDate}
+              category={post.data.category}
+              readingTime={`${calculateReadingTime(post.body!)} min read`}
+              href={`/insights/${post.slug}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- CTA -->
   <CTA
-    title="Let's Build Something Together"
-    description="Interested in working together or discussing cloud architecture? I'd love to connect."
-    primaryCTA={{ label: "Get in Touch", href: "/contact" }}
-    secondaryCTA={{ label: "View Resume", href: "/resume" }}
+    title="Have a project in mind?"
+    description="Send us the scope, the constraints, and what's already been tried. We'll respond within one business day with next steps."
+    primaryCTA={{ label: "Start a Project", href: "/contact" }}
+    secondaryCTA={{ label: "Explore Services", href: "/services" }}
   />
 </BaseLayout>

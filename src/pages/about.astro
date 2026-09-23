@@ -1,126 +1,168 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import TechBadge from "@components/TechBadge.astro";
+import CTA from "@components/CTA.astro";
 import SocialIcons from "@components/SocialIcons.astro";
+import { certifications } from "@/data/certifications";
+import { siteConfig } from "@/config";
+
+const principles = [
+  {
+    title: "Discovery before implementation",
+    description:
+      "Every engagement starts with a fixed-scope discovery. You get a written assessment before we ever propose a build — and you keep it whether or not we continue.",
+  },
+  {
+    title: "Own the outcome, not the retainer",
+    description:
+      "We're not trying to become a dependency. Success is your team fully operating the systems we ship, on the timeline we agreed to.",
+  },
+  {
+    title: "Senior engineering on every call",
+    description:
+      "You'll never get handed off to a rotating cast of juniors. The person who runs discovery is the person who writes the Terraform.",
+  },
+  {
+    title: "Numbers on every claim",
+    description:
+      "If we say a change will cut latency or spend, we agree on the metric up front and ship the dashboard that measures it. No vanity outcomes.",
+  },
+];
 ---
 
-<BaseLayout title="About" description="Learn more about my background in cloud engineering, platform engineering, and DevOps.">
-  <div id="bg-image" class="fixed inset-0 -z-10 bg-cover bg-center bg-fixed" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80');"></div>
-  <div id="bg-overlay" class="fixed inset-0 -z-10 bg-gradient-to-b from-surface-950/60 via-surface-950/70 to-surface-950/90"></div>
-
-  <script>
-    const bgImage = document.getElementById('bg-image');
-    const bgOverlay = document.getElementById('bg-overlay');
-    let rafId = null;
-
-    if (bgImage && bgOverlay) {
-      const updateOpacity = () => {
-        const scrollTop = window.scrollY;
-        const fadeDistance = window.innerHeight * 0.9;
-        const opacity = Math.max(1 - (scrollTop / fadeDistance), 0);
-
-        bgImage.style.opacity = opacity;
-        bgOverlay.style.opacity = opacity;
-      };
-
-      window.addEventListener('scroll', () => {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(updateOpacity);
-      }, { passive: true });
-
-      updateOpacity();
-    }
-  </script>
-
-  <!-- Hero spacer -->
-  <section class="relative h-64 md:h-96"></section>
-
-  <!-- Content Section -->
-  <section class="section-padding relative z-10">
+<BaseLayout
+  title="About"
+  description={`About ${siteConfig.title} — an independent cloud consultancy led by ${siteConfig.founder}.`}
+>
+  <section class="section-padding border-b border-surface-800/50">
     <div class="section-container">
-      <div class="max-w-4xl mx-auto">
-        <div class="mb-12">
-          <h1 class="text-5xl md:text-6xl font-bold text-heading tracking-tight">About Me</h1>
-          <p class="mt-4 text-xl text-surface-300">Cloud engineer, platform builder, automation enthusiast.</p>
-        </div>
-        <!-- Bio -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          <div class="lg:col-span-2 space-y-6">
-            <p class="text-surface-300 leading-relaxed">
-              I'm a Cloud Engineer with over 8 years of experience designing, building, and 
-              operating production-grade distributed systems. My work spans multi-cloud architectures, 
-              Kubernetes platforms, and developer experience tooling.
-            </p>
-
-            <p class="text-surface-300 leading-relaxed">
-              I'm passionate about infrastructure automation, observability, and building 
-              platforms that empower engineering teams to ship faster. I believe in GitOps, 
-              infrastructure as code, and treating operations as a software engineering discipline.
-            </p>
-
-            <p class="text-surface-300 leading-relaxed">
-              When I'm not building cloud infrastructure, I contribute to open-source projects, 
-              write about cloud engineering, and mentor junior engineers. I'm a strong advocate 
-              for documentation, testing, and operational excellence.
-            </p>
-
-            <h2 class="text-2xl font-bold text-heading pt-6">What I Do</h2>
-
-            <ul class="space-y-3 text-surface-300">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Design and implement multi-cloud architectures (AWS, GCP, Azure)
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Build and operate Kubernetes platforms at scale
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Develop CI/CD pipelines and GitOps workflows
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Implement observability and monitoring solutions
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Automate infrastructure with Terraform and Pulumi
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-primary-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                Build developer platforms and internal tooling
-              </li>
-            </ul>
-          </div>
-
-          <!-- Sidebar -->
-          <div class="space-y-8">
-            <div class="card">
-              <h3 class="text-sm font-semibold text-heading mb-3">Connect</h3>
-              <SocialIcons size="md" />
-            </div>
-
-            <div class="card">
-              <h3 class="text-sm font-semibold text-heading mb-3">Location</h3>
-              <p class="text-sm text-surface-400">New York, USA</p>
-              <p class="text-sm text-surface-500 mt-1">Open to remote work</p>
-            </div>
-          </div>
-        </div>
+      <div class="max-w-3xl">
+        <span class="text-sm font-medium text-primary-400">About</span>
+        <h1 class="mt-2 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-heading">
+          An independent consultancy, not a body shop.
+        </h1>
+        <p class="mt-6 text-lg text-surface-300 leading-relaxed">
+          {siteConfig.title} is a boutique cloud consulting practice founded by {siteConfig.founder}. We take on a small number of engagements at a time so every client works directly with senior engineers — not sales staff who disappear after the SOW is signed.
+        </p>
       </div>
     </div>
   </section>
+
+  <section class="section-padding">
+    <div class="section-container">
+      <div class="max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Founder bio -->
+        <div class="lg:col-span-2 space-y-6">
+          <span class="text-sm font-medium text-primary-400">Founder</span>
+          <h2 class="text-3xl font-bold text-heading tracking-tight">{siteConfig.founder}</h2>
+          <p class="text-lg text-primary-300">Principal Consultant · Cloud DevSecOps Engineer</p>
+
+          <div class="space-y-5 text-surface-300 leading-relaxed pt-4">
+            <p>
+              I've spent the last several years building and operating cloud infrastructure at scale — everything from Series A startups betting the business on a single AWS account, to enterprises consolidating dozens of them after M&A. I've been the on-call engineer at 3AM and the architect writing the design doc that prevented the next 3AM page.
+            </p>
+            <p>
+              I started Surefire Cloud because I kept watching consultancies sell frameworks instead of outcomes: 60-page decks, months of meetings, and infrastructure the client couldn't operate after handoff. The teams I'd worked with directly always wanted the opposite — a senior engineer who could sit next to them, ship real code, and leave them stronger.
+            </p>
+            <p>
+              I hold certifications across AWS, Google Cloud, Azure, and HashiCorp, but the practical work has taught me more than any exam. Every engagement is different; the goal is always the same: your team owning production infrastructure they trust.
+            </p>
+          </div>
+
+          <div class="pt-4">
+            <SocialIcons size="md" />
+          </div>
+        </div>
+
+        <!-- Sidebar facts -->
+        <aside class="space-y-6">
+          <div class="rounded-xl border border-surface-800 bg-surface-900/40 p-6">
+            <h3 class="text-sm font-semibold text-heading mb-2">Based in</h3>
+            <p class="text-sm text-surface-400">New York, USA</p>
+            <p class="text-xs text-surface-500 mt-1">Remote engagements globally</p>
+          </div>
+
+          <div class="rounded-xl border border-surface-800 bg-surface-900/40 p-6">
+            <h3 class="text-sm font-semibold text-heading mb-2">Cloud platforms</h3>
+            <p class="text-sm text-surface-400">AWS · Google Cloud · Microsoft Azure</p>
+          </div>
+
+          <div class="rounded-xl border border-surface-800 bg-surface-900/40 p-6">
+            <h3 class="text-sm font-semibold text-heading mb-2">Availability</h3>
+            <p class="text-sm text-surface-400">Accepting new engagements for Q1</p>
+            <p class="text-xs text-surface-500 mt-1">Typical lead time: 3–4 weeks</p>
+          </div>
+
+          <div class="rounded-xl border border-surface-800 bg-surface-900/40 p-6">
+            <h3 class="text-sm font-semibold text-heading mb-2">Contact</h3>
+            <a href={`mailto:${siteConfig.contactEmail}`} class="text-sm text-primary-400 hover:text-primary-300 transition-colors break-all">{siteConfig.contactEmail}</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principles -->
+  <section class="section-padding border-t border-surface-800/50 bg-surface-900/20">
+    <div class="section-container">
+      <div class="max-w-2xl mb-12">
+        <span class="text-sm font-medium text-primary-400">How we operate</span>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+          Four principles we don't compromise on.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {principles.map((principle) => (
+          <div class="rounded-xl border border-surface-800 bg-surface-950/40 p-6 sm:p-8">
+            <h3 class="text-lg font-semibold text-heading">{principle.title}</h3>
+            <p class="mt-3 text-surface-400 leading-relaxed">{principle.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  <section class="section-padding border-t border-surface-800/50">
+    <div class="section-container">
+      <div class="max-w-2xl mb-12">
+        <span class="text-sm font-medium text-primary-400">Credentials</span>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold text-heading tracking-tight">
+          Certifications across every major cloud.
+        </h2>
+        <p class="mt-4 text-surface-400 leading-relaxed">
+          Certifications don't build reliable systems — engineers do. That said, they signal a baseline of vendor-specific literacy and current knowledge across the platforms we work on.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {certifications.map((cert) => (
+          <div class="rounded-lg border border-surface-800 bg-surface-900/40 p-5 flex flex-col">
+            <div class="flex items-center gap-2 text-xs">
+              <span class="px-2 py-0.5 rounded-full bg-primary-500/10 text-primary-400 border border-primary-500/20">{cert.category}</span>
+              <span class="text-surface-500">·</span>
+              <span class="text-surface-400">{cert.date}</span>
+            </div>
+            <h3 class="mt-3 text-sm font-semibold text-heading leading-snug">{cert.title}</h3>
+            <p class="mt-2 text-xs text-surface-400 leading-relaxed">{cert.description}</p>
+            <a
+              href={cert.credentialUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-4 text-xs text-primary-400 hover:text-primary-300 transition-colors"
+            >
+              Verify credential →
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA
+    title="Have a project in mind?"
+    description="If any of this resonates, we should talk. Send us the shape of the problem and we'll respond within one business day."
+    primaryCTA={{ label: "Start a Project", href: "/contact" }}
+    secondaryCTA={{ label: "See Our Work", href: "/case-studies" }}
+  />
 </BaseLayout>

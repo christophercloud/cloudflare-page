@@ -1,0 +1,48 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import ServiceCard from "@components/ServiceCard.astro";
+import CTA from "@components/CTA.astro";
+import { services } from "@/data/services";
+---
+
+<BaseLayout
+  title="Services"
+  description="Cloud migration, platform engineering, site reliability, security & compliance, and FinOps consulting — from Surefire Cloud Consultancy."
+>
+  <section class="section-padding border-b border-surface-800/50">
+    <div class="section-container">
+      <div class="max-w-3xl">
+        <span class="text-sm font-medium text-primary-400">Services</span>
+        <h1 class="mt-2 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-heading">
+          Five ways we help teams ship on the cloud.
+        </h1>
+        <p class="mt-6 text-lg text-surface-300 leading-relaxed">
+          Every practice area starts with a fixed-scope discovery so you know exactly what you're buying before implementation begins. Pick the one that fits — or send us the problem and we'll tell you which of these is the right frame.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="section-container">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((service) => (
+          <ServiceCard
+            slug={service.slug}
+            title={service.title}
+            tagline={service.tagline}
+            summary={service.summary}
+            icon={service.icon}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA
+    title="Not sure which of these fits?"
+    description="Send us a paragraph about the problem you're trying to solve. We'll reply with a shortlist of what we'd actually recommend — including 'none of the above' if that's the honest answer."
+    primaryCTA={{ label: "Get in Touch", href: "/contact" }}
+    secondaryCTA={{ label: "See Case Studies", href: "/case-studies" }}
+  />
+</BaseLayout>
