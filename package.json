@@ -1,8 +1,8 @@
 {
-  "name": "cloud-engineer-portfolio",
+  "name": "surefire-cloud-consultancy",
   "type": "module",
   "version": "1.0.0",
-  "description": "Personal cloud engineering portfolio built with Astro and deployed to Cloudflare Pages",
+  "description": "Surefire Cloud Consultancy website — built with Astro, deployed to Cloudflare Pages",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -16,10 +16,10 @@
     "ci:format": "prettier --write ."
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.0",
-    "@astrojs/tailwind": "^6.0.2",
-    "astro": "^5.8.0",
-    "tailwindcss": "^3.4.17"
+    "@astrojs/mdx": "^5.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^7.3.4",
+    "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
@@ -29,5 +29,9 @@
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "sharp": "^0.34.4",
+    "esbuild": "^0.28.1"
   }
 }

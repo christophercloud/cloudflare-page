@@ -244,8 +244,8 @@ const partnerBadges = ["AWS", "Google Cloud", "Microsoft Azure", "Kubernetes", "
               description={post.data.description}
               date={post.data.publishedDate}
               category={post.data.category}
-              readingTime={`${calculateReadingTime(post.body!)} min read`}
-              href={`/insights/${post.slug}`}
+              readingTime={`${calculateReadingTime(post.body ?? "")} min read`}
+              href={`/insights/${post.id}`}
             />
           ))}
         </div>

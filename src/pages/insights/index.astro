@@ -64,8 +64,8 @@ const categories = [...new Set(allPosts.map((p) => p.data.category))];
               description={post.data.description}
               date={post.data.publishedDate}
               category={post.data.category}
-              readingTime={`${calculateReadingTime(post.body!)} min read`}
-              href={`/insights/${post.slug}`}
+              readingTime={`${calculateReadingTime(post.body ?? "")} min read`}
+              href={`/insights/${post.id}`}
               tags={post.data.tags}
             />
           </div>
